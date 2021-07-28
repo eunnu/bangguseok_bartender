@@ -14,9 +14,9 @@
   CREATE TABLE cocktails (
        id           INTEGER IDENTITY PRIMARY KEY,
        name         VARCHAR(15),
-       description  VARCHAR(100),
+       description  VARCHAR(200),
        abv          INTEGER,
-       how          VARCHAR(100),
+--       how          VARCHAR(100),
        photo        BLOB, -- or image url
        created_user_id INTEGER,
        create_date  TIMESTAMP
@@ -28,7 +28,7 @@
        name         VARCHAR(15),
        type  VARCHAR(100),
        abv          INTEGER,
-       description        VARCHAR(100)
+       description        VARCHAR(200)
   );
 
   CREATE TABLE etc_materials (
@@ -41,7 +41,7 @@
   CREATE TABLE map_cocktail_alcohol (
        cocktail_id           INTEGER,
        alcohol_id           INTEGER,
-       quantity             DOUBLE
+       quantity             DOUBLE -- ml 단위
   );
 ALTER TABLE map_cocktail_alcohol ADD CONSTRAINT fk_map_cocktail_alcohol_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
 ALTER TABLE map_cocktail_alcohol ADD CONSTRAINT fk_map_cocktail_alcohol_alcohol_id FOREIGN KEY (alcohol_id) REFERENCES alcohols (id);
