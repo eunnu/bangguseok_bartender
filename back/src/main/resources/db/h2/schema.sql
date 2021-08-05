@@ -7,7 +7,8 @@
      birth_date  DATE,
      gender      VARCHAR(5),
      phone_num   VARCHAR(15),
-     create_date TIMESTAMP
+     create_date TIMESTAMP,
+     update_date TIMESTAMP
   );
   CREATE INDEX idx_users_login_id  ON users(login_id);
 
@@ -16,25 +17,25 @@
        name         VARCHAR(15),
        description  VARCHAR(200),
        abv          INTEGER,
---       how          VARCHAR(100),
-       photo        BLOB, -- or image url
+       how          VARCHAR(200),
+       glass        VARCHAR(20),
+--       photo        BLOB, -- or image url
        created_user_id INTEGER,
-       create_date  TIMESTAMP
+       create_date  TIMESTAMP,
+       update_date TIMESTAMP
     );
   ALTER TABLE cocktails ADD CONSTRAINT fk_cocktails_users FOREIGN KEY (created_user_id) REFERENCES users (id);
 
   CREATE TABLE alcohols (
        id           INTEGER IDENTITY PRIMARY KEY,
-       name         VARCHAR(15),
        type  VARCHAR(100),
        abv          INTEGER,
        description        VARCHAR(200)
   );
 
-  CREATE TABLE etc_materials (
+  CREATE TABLE etc (
        id           INTEGER IDENTITY PRIMARY KEY,
        name         VARCHAR(15),
-       type  VARCHAR(100),
        description        VARCHAR(100)
   );
 
@@ -48,14 +49,14 @@ ALTER TABLE map_cocktail_alcohol ADD CONSTRAINT fk_map_cocktail_alcohol_alcohol_
 CREATE INDEX idx_map_cocktail_alcohol_cocktail_id  ON map_cocktail_alcohol(cocktail_id);
 
 -- 위의 테이블과 합쳐도 될 듯?
-  CREATE TABLE map_cocktail_etc_materials (
+  CREATE TABLE map_cocktail_etc (
        cocktail_id           INTEGER,
        etc_id           INTEGER,
        quantity             DOUBLE
   );
-ALTER TABLE map_cocktail_etc_materials ADD CONSTRAINT fk_map_cocktail_etc_materials_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
-ALTER TABLE map_cocktail_etc_materials ADD CONSTRAINT fk_map_cocktail_etc_materials_etc_id FOREIGN KEY (etc_id) REFERENCES etc_materials (id);
-CREATE INDEX idx_map_cocktail_etc_cocktail_id  ON map_cocktail_etc_materials(cocktail_id);
+ALTER TABLE map_cocktail_etc ADD CONSTRAINT fk_map_cocktail_etc_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
+ALTER TABLE map_cocktail_etc ADD CONSTRAINT fk_map_cocktail_etc_etc_id FOREIGN KEY (etc_id) REFERENCES etc (id);
+CREATE INDEX idx_map_cocktail_etc_cocktail_id  ON map_cocktail_etc(cocktail_id);
 
   CREATE TABLE user_keep_cocktail (
        user_id           INTEGER,
