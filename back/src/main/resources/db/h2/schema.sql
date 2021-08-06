@@ -12,12 +12,17 @@
   );
   CREATE INDEX idx_users_login_id  ON users(login_id);
 
+  CREATE TABLE ingredients (
+       id           INTEGER IDENTITY PRIMARY KEY,
+       name         VARCHAR(100),
+       abv          INTEGER,
+       description  VARCHAR(200)
+  );
+
   CREATE TABLE cocktails (
        id           INTEGER IDENTITY PRIMARY KEY,
        name         VARCHAR(15),
        description  VARCHAR(200),
-       abv          INTEGER,
-       how          VARCHAR(200),
        glass        VARCHAR(20),
 --       photo        BLOB, -- or image url
        created_user_id INTEGER,
@@ -26,37 +31,15 @@
     );
   ALTER TABLE cocktails ADD CONSTRAINT fk_cocktails_users FOREIGN KEY (created_user_id) REFERENCES users (id);
 
-  CREATE TABLE alcohols (
-       id           INTEGER IDENTITY PRIMARY KEY,
-       type  VARCHAR(100),
-       abv          INTEGER,
-       description        VARCHAR(200)
-  );
-
-  CREATE TABLE etc (
-       id           INTEGER IDENTITY PRIMARY KEY,
-       name         VARCHAR(15),
-       description        VARCHAR(100)
-  );
-
-  CREATE TABLE map_cocktail_alcohol (
+  CREATE TABLE recipes (
        cocktail_id           INTEGER,
-       alcohol_id           INTEGER,
-       quantity             DOUBLE -- ml 단위
-  );
-ALTER TABLE map_cocktail_alcohol ADD CONSTRAINT fk_map_cocktail_alcohol_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
-ALTER TABLE map_cocktail_alcohol ADD CONSTRAINT fk_map_cocktail_alcohol_alcohol_id FOREIGN KEY (alcohol_id) REFERENCES alcohols (id);
-CREATE INDEX idx_map_cocktail_alcohol_cocktail_id  ON map_cocktail_alcohol(cocktail_id);
-
--- 위의 테이블과 합쳐도 될 듯?
-  CREATE TABLE map_cocktail_etc (
-       cocktail_id           INTEGER,
-       etc_id           INTEGER,
-       quantity             DOUBLE
-  );
-ALTER TABLE map_cocktail_etc ADD CONSTRAINT fk_map_cocktail_etc_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
-ALTER TABLE map_cocktail_etc ADD CONSTRAINT fk_map_cocktail_etc_etc_id FOREIGN KEY (etc_id) REFERENCES etc (id);
-CREATE INDEX idx_map_cocktail_etc_cocktail_id  ON map_cocktail_etc(cocktail_id);
+       ingredient_id INTEGER,
+       quantity      DOUBLE
+    );
+  ALTER TABLE recipes ADD CONSTRAINT fk_recipes_cocktails FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
+  ALTER TABLE recipes ADD CONSTRAINT fk_recipes_ingredients FOREIGN KEY (ingredient_id) REFERENCES ingredients (id);
+  CREATE INDEX idx_recipes_ingredient_id  ON recipes(ingredient_id);
+  CREATE INDEX idx_recipes_cocktail_id  ON recipes(cocktail_id);
 
   CREATE TABLE user_keep_cocktail (
        user_id           INTEGER,
