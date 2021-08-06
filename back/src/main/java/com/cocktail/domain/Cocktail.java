@@ -1,9 +1,6 @@
 package com.cocktail.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -19,14 +16,15 @@ public class Cocktail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NonNull
     private String name;
 
     private String description;
 
-    private int abv;
+    @Embedded
+    private Recipe recipe;
 
-    private String how;
-
+    @NonNull
     private String glass;
 
     private String created_user_id;
@@ -38,4 +36,12 @@ public class Cocktail {
     @LastModifiedDate
     @Column(name = "update_date")
     private Timestamp updatedDate;
+
+    @Builder
+    public Cocktail(String name, String description, Recipe recipe, String glass) {
+        this.name = name;
+        this.description = description;
+        this.recipe = recipe;
+        this.glass = glass;
+    }
 }
