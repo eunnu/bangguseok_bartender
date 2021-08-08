@@ -10,9 +10,9 @@ import javax.persistence.Table;
 public class Recipe {
 
     @ManyToOne
-    private int cocktail_id;
+    private Long cocktail_id;
 
-    private int ingredient_id;
+    private Long ingredient_id;
 
     private double abv;
 }

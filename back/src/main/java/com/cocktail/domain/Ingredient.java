@@ -14,12 +14,12 @@ import javax.persistence.Table;
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @NonNull
     private String name;
 
-    private int abv;
+    private double abv;
 
     private String description;
 
