@@ -1,41 +1,53 @@
 @startuml
 
-class Cocktail {
+class BaseEntity {
     - {field} Long id
     - {field} String name
-    - {field} String description
-    - {field} Recipe recipe
-    - {field} String glass
-    - {field} String created_user_id
+}
+
+class TimeEntity {
     - {field} Timestamp createdDate
     - {field} Timestamp updatedDate
 }
 
+class Cocktail {
+    - {field} String description
+    - {field} Recipe recipe
+    - {field} String glass
+'    - {field} String ice
+    - {field} String created_user_id
+}
+
 class Ingredient {
-    - {field} Long id
-    - {field} String name
     - {field} String description
     - {field} double abv
 }
 
+class RecipeItem {
+    - {field} Ingredient ingredient
+    - {field} double quantity
+}
+
 class Recipe {
-    - {field} Long cocktail_id
-    - {field} Long ingredient_id
+    - {field} List<RecipeItem> ingredients
     - {field} double abv
 }
 
 class User {
-    - {field} Long id
-    - {field} String name
     - {field} String login_id
     - {field} String pw
     - {field} Date birth_date
     - {field} String gender
     - {field} String phone_num
-    - {field} Timestamp createdDate
-    - {field} Timestamp updatedDate
 }
+TimeEntity --|> BaseEntity
+User --|> TimeEntity
+Cocktail --|> TimeEntity
+Ingredient --|> BaseEntity
 
 Cocktail --> Recipe
+RecipeItem --> Ingredient
+Recipe --* RecipeItem
+User --> Cocktail
 
 @enduml
