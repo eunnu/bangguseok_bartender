@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/cocktail
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  thymeleaf:
+    mode: HTML
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+#        show_sql: true # system.out
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug # logger
+    org.hibernate.type: trace
+#    org.springframework: INFO
+#    org.springframework.web: DEBUG
