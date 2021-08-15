@@ -1,47 +1,47 @@
 package com.cocktail.domain;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
-@Table(name = "COCKTAILS")
+@Table(name = "cocktails")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cocktail {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@Entity
+public class Cocktail extends TimeEntity {
 
-    @NonNull
-    private String name;
-
+    @Column(name = "description")
     private String description;
 
-    @Embedded
-    private Recipe recipe;
+    @OneToMany(mappedBy = "cocktail")
+    private List<RecipeItem> recipeItems = new ArrayList<>();
 
-    @NonNull
-    private String glass;
+    @Enumerated(EnumType.STRING)
+    private Glass glass;
 
-    private String created_user_id;
+    @ManyToOne
+    @JoinColumn(name = "create_user_id")
+    private User user;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    private Timestamp createdDate;
+    @Transient
+    private double abv;
 
-    @LastModifiedDate
-    @Column(name = "update_date")
-    private Timestamp updatedDate;
-
-    @Builder
-    public Cocktail(String name, String description, Recipe recipe, String glass) {
-        this.name = name;
-        this.description = description;
-        this.recipe = recipe;
-        this.glass = glass;
+    public double getAbv() {
+        if(abv == 0) {
+            double alcoholSum = 0, totalSum = 0;
+            for (RecipeItem item : recipeItems) {
+                alcoholSum += item.getQuantity() * item.getIngredient().getAbv();
+                totalSum += item.getQuantity();
+            }
+            abv = alcoholSum / totalSum;
+        }
+        return abv;
     }
 }

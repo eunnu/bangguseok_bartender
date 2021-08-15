@@ -2,25 +2,18 @@ package com.cocktail.domain;
 
 import lombok.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @ToString
 @Getter
-@Table(name = "INGREDIENTS")
+@Table(name = "ingredients")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Ingredient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @NonNull
-    private String name;
-
+@Entity
+public class Ingredient extends BaseEntity {
+    @Column(name = "abv")
     private double abv;
 
+    @Column(name = "description")
     private String description;
 
 }

@@ -10,18 +10,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 @ToString
 @Getter
-@Table(name = "USERS")
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
-
+@Entity
+public class User extends TimeEntity {
     private String login_id;
 
     private String pw;
@@ -32,11 +28,6 @@ public class User {
 
     private String phone_num;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    private Timestamp createdDate;
-
-    @LastModifiedDate
-    @Column(name = "update_date")
-    private Timestamp updatedDate;
+    @OneToMany(mappedBy = "user")
+    private List<Cocktail> cocktails;
 }
