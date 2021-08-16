@@ -1,37 +1,36 @@
 package com.cocktail.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Builder
 @Getter
 @Entity
 @Table(name = "recipes")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecipeItem {
 
     @Id @GeneratedValue
     @Column(name = "recipe_item_id")
-    private final Long id;
+    private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cocktail_id")
     @NonNull
     private Cocktail cocktail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
     @Column(name = "quantity")
-    private final double quantity;
+    private double quantity;
 
     @Override
     public String toString() {
         return "RecipeItem{\n" +
-//                "cocktailId=" + cocktailId + "\n" +
                 ", ingredient=" + ingredient + "\n" +
                 ", quantity=" + quantity + "\n" +
                 '}';
@@ -48,6 +47,14 @@ public class RecipeItem {
 
     //==생성 메서드==//
 //    public RecipeItem createRecipeItem(Cocktail cocktail, Ingredient ingredient, double quantity) { }
+
+    @Builder
+    public RecipeItem(@NonNull Cocktail cocktail, Ingredient ingredient, double quantity) {
+        this.cocktail = cocktail;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+    }
+
 
     //==비즈니스 로직==//
 

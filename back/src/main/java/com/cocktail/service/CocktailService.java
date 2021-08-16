@@ -3,6 +3,7 @@ package com.cocktail.service;
 import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.RecipeItem;
 import com.cocktail.dto.CocktailRequest;
+import com.cocktail.dto.CocktailResponse;
 import com.cocktail.repository.CocktailRepository;
 import com.cocktail.repository.IngredientRepository;
 import com.cocktail.repository.UserRepository;
@@ -42,4 +43,9 @@ public class CocktailService {
 
         return cocktailRepository.save(cocktail);
     }
+
+    public CocktailResponse findCocktail(Long id) {
+        return new CocktailResponse(cocktailRepository.findById(id));
+    }
+
 }

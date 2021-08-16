@@ -1,13 +1,14 @@
 package com.cocktail.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -37,14 +38,15 @@ public class Cocktail {
     @Column(name = "description")
     private String description;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     @NonNull
-    private final List<RecipeItem> recipeItems = new ArrayList<>();
+    private final Set<RecipeItem> recipeItems = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private Glass glass;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // FetchType.EAGER 면 left outer join 해옴
     @JoinColumn(name = "create_user_id")
     @NonNull
     private User user;
@@ -72,8 +74,6 @@ public class Cocktail {
 //        this.user = user;
         this.abv = abv;
     }
-
-//    public Cocktail createCocktail(User user, RecipeItem... recipeItem)
 
     //==비즈니스 로직==//
     public double getAbv() {

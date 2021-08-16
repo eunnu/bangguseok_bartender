@@ -7,7 +7,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @ToString
 @Getter
@@ -43,6 +42,4 @@ public class User {
 
     private String phone_num;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Cocktail> cocktails;
 }
