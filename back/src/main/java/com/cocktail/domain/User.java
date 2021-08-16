@@ -1,15 +1,12 @@
 package com.cocktail.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ToString
@@ -17,7 +14,25 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User extends TimeEntity {
+public class User {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
+    private Long id;
+
+    @NonNull
+    @Column(name = "user_name", unique = true)
+    private String name;
+
+    @CreatedDate
+    @Column(name = "create_date")
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(name = "update_date")
+    private LocalDateTime updatedDate;
+
     private String login_id;
 
     private String pw;
@@ -28,6 +43,6 @@ public class User extends TimeEntity {
 
     private String phone_num;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Cocktail> cocktails;
 }
