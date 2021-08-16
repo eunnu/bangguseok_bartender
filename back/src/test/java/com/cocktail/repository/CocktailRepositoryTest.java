@@ -1,45 +1,33 @@
 package com.cocktail.repository;
 
-import com.cocktail.Config;
 import com.cocktail.domain.Cocktail;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import javax.annotation.security.RunAs;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-class CocktailRepositoryTest {
+@RunWith(SpringRunner.class)
+public class CocktailRepositoryTest {
 
     @Autowired
     CocktailRepository cocktailRepository;
 
+    @Transactional
     @Test
-    void findAll() {
-        List<Cocktail> cocktailList = cocktailRepository.findAll();
-        assertNotNull(cocktailList);
+    public void 저장() throws Exception {
+        Cocktail cocktail = Cocktail.builder().name("cocktailA").build();
+
+        Long savedId = cocktailRepository.save(cocktail);
+
+        Cocktail resultedCocktail = cocktailRepository.findById(savedId);
+
+        org.junit.jupiter.api.Assertions.assertNotNull(resultedCocktail);
+        Assertions.assertThat(cocktail.getName()).isEqualTo(resultedCocktail.getName());
     }
 
-    @Test
-    void findById() {
-        Optional<Cocktail> cocktail = cocktailRepository.findById(1L);
-        assertNotNull(cocktail);
-    }
-
-    @Test
-    void findByName() {
-        List<Cocktail> cocktail = cocktailRepository.findByName("coke");
-        assertNotNull(cocktail);
-        assertNotEquals(Collections.EMPTY_LIST, cocktail);
-    }
 
 }
