@@ -1,33 +1,45 @@
 package com.cocktail.service;
 
 import com.cocktail.domain.Cocktail;
+import com.cocktail.domain.RecipeItem;
+import com.cocktail.dto.CocktailRequest;
 import com.cocktail.repository.CocktailRepository;
+import com.cocktail.repository.IngredientRepository;
+import com.cocktail.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class CocktailService {
 
-    private final CocktailRepository cocktailRepository;
-
     @Autowired
-    public CocktailService(CocktailRepository cocktailRepository) {
-        this.cocktailRepository = cocktailRepository;
-    }
+    CocktailRepository cocktailRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    IngredientRepository ingredientRepository;
 
-    public List<Cocktail> findAll() {
-        return cocktailRepository.findAll();
-    }
+    @Transactional
+    public Long createCocktail(Long userId, CocktailRequest cocktailRequest) {
+        Cocktail cocktail = cocktailRequest.toCocktail();
+        cocktail.setUser(userRepository.findById(userId));
+        List<Long> ingredientIdList = cocktailRequest.getIngredientIdList();
+        List<Double> quantityList = cocktailRequest.getQuantityList();
 
-    public List<Cocktail> findByName(String name) {
-        return cocktailRepository.findByName(name);
-    }
+        for (int i = 0; i < ingredientIdList.size(); i++) {
+            cocktail.addRecipeItems(
+                    RecipeItem.builder()
+                            .ingredient(ingredientRepository.findById(ingredientIdList.get(i)))
+                            .quantity(quantityList.get(i))
+                            .cocktail(cocktail)
+                            .build()
+            );
+        }
 
-    public Optional<Cocktail> findById(Long id) {
-        return cocktailRepository.findById(id);
+        return cocktailRepository.save(cocktail);
     }
-
 }
