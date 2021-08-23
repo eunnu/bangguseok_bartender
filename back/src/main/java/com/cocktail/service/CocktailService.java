@@ -32,7 +32,7 @@ public class CocktailService {
         List<Double> quantityList = cocktailRequest.getQuantityList();
 
         for (int i = 0; i < ingredientIdList.size(); i++) {
-            cocktail.addRecipeItems(
+            cocktail.getRecipe().addRecipeItems(
                     RecipeItem.builder()
                             .ingredient(ingredientRepository.findById(ingredientIdList.get(i)))
                             .quantity(quantityList.get(i))

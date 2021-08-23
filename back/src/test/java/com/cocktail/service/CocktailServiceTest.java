@@ -3,6 +3,7 @@ package com.cocktail.service;
 import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.Glass;
 import com.cocktail.dto.CocktailRequest;
+import com.cocktail.dto.CocktailResponse;
 import com.cocktail.repository.CocktailRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,9 +57,22 @@ public class CocktailServiceTest {
 //        em.flush();
         assertThat(cocktailRequest.getDescription()).isEqualTo(cocktail1.getDescription());
         assertThat(cocktailRequest.getName()).isEqualTo(cocktail1.getName());
-        assertThat(cocktailRequest.getIngredientIdList().get(0)).isEqualTo(cocktail1.getRecipeItems().get(0).getIngredient().getId());
-        assertThat(cocktailRequest.getQuantityList().get(0)).isEqualTo(cocktail1.getRecipeItems().get(0).getQuantity());
+//        assertThat(cocktailRequest.getIngredientIdList().get(0)).isEqualTo(List.copyOf(cocktail1.getRecipeItems()).get(0).getIngredient().getId());
+//        assertThat(cocktailRequest.getQuantityList().get(0)).isEqualTo(cocktail1.getRecipeItems().get(0).getQuantity());
     }
 
+    @Test
+    public void 단일조회() throws Exception {
+        // given
+        Long cocktailId = 2L;
+
+        // when
+        CocktailResponse cocktail = cocktailService.findCocktail(cocktailId);
+
+        // then
+        assertThat("Jack Coke").isEqualTo(cocktail.getName());
+//        assertThat("admin").isEqualTo(cocktail.getUser().getName());
+//        assertThat("Whiskey").isEqualTo(cocktail.getRecipeItems().get(0).getIngredient().getName());
+    }
 
 }

@@ -1,14 +1,11 @@
 package com.cocktail.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @ToString
 @Getter
@@ -38,10 +35,8 @@ public class Cocktail {
     @Column(name = "description")
     private String description;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
-    @NonNull
-    private final Set<RecipeItem> recipeItems = new HashSet<>();
+    @Embedded
+    private Recipe recipe = Recipe.empty();
 
     @Enumerated(EnumType.STRING)
     private Glass glass;
@@ -51,12 +46,8 @@ public class Cocktail {
     @NonNull
     private User user;
 
-    @Transient
-    private double abv = 0;
-
-    //==연관관계 메서드==//
-    public void addRecipeItems(RecipeItem recipeItem) {
-        this.recipeItems.add(recipeItem);
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public void setUser(User user) {
@@ -65,28 +56,11 @@ public class Cocktail {
 
     //==생성 메서드==//
     @Builder
-    public Cocktail(Long id, @NonNull String name, String description, Glass glass, double abv) {
+    public Cocktail(Long id, @NonNull String name, String description, Glass glass) {
         this.id = id;
         this.name = name;
         this.description = description;
-//        this.recipeItems = recipeItems;
         this.glass = glass;
-//        this.user = user;
-        this.abv = abv;
     }
-
-    //==비즈니스 로직==//
-    public double getAbv() {
-        if(abv == 0) {
-            double alcoholSum = 0, totalSum = 0;
-            for (RecipeItem item : recipeItems) {
-                alcoholSum += item.getQuantity() * item.getIngredient().getAbv();
-                totalSum += item.getQuantity();
-            }
-            abv = alcoholSum / totalSum;
-        }
-        return abv;
-    }
-
 
 }

@@ -24,6 +24,7 @@
        name         VARCHAR(15),
        description  VARCHAR(200),
        glass        VARCHAR(20),
+       technique    VARCHAR(30),
 --       photo        BLOB, -- or image url
        created_user_id INTEGER,
        create_date  TIMESTAMP,

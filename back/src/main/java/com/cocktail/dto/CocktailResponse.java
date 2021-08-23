@@ -3,18 +3,13 @@ package com.cocktail.dto;
 import com.cocktail.common.Def;
 import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.Glass;
-import com.cocktail.domain.RecipeItem;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.Collections;
-import java.util.Set;
+import com.cocktail.domain.Recipe;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
 public class CocktailResponse {
 
     private String name;
@@ -25,7 +20,7 @@ public class CocktailResponse {
 
     private String description;
 
-    private Set<RecipeItem> recipeItems = Collections.EMPTY_SET;
+    private Recipe recipe = Recipe.empty();
 
     private Glass glass;
 
@@ -38,13 +33,13 @@ public class CocktailResponse {
     public CocktailResponse(Cocktail cocktail) {
         this.name = cocktail.getName();
         this.description = cocktail.getDescription();
-        this.abv = cocktail.getAbv();
         this.createdDate = cocktail.getCreatedDate().format(Def.dateTimeFormatter);
         this.updatedDate = cocktail.getUpdatedDate().format(Def.dateTimeFormatter);
         this.glass = cocktail.getGlass();
         this.userId = cocktail.getUser().getId();
         this.userName = cocktail.getUser().getName();
-        this.recipeItems = cocktail.getRecipeItems();
+        this.recipe = cocktail.getRecipe();
+        this.abv = recipe.getAbv();
     }
 
 }
