@@ -9,10 +9,11 @@ import javax.persistence.PersistenceContext;
 @Repository
 public class UserRepository {
 
-    @PersistenceContext
-    EntityManager em;
+	@PersistenceContext
+	EntityManager em;
 
-    public User findById(Long userId) {
-        return em.find(User.class, userId);
-    }
+	public User findById(Long userId) {
+		return em.find(User.class, userId);
+	}
+
 }

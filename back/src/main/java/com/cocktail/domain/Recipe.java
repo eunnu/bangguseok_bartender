@@ -12,39 +12,40 @@ import java.util.Set;
 @Getter
 @ToString
 public class Recipe {
-    @JsonManagedReference
-    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
-    @NonNull
-    private final Set<RecipeItem> recipeItems = new HashSet<>();
 
-    @Column(name = "technique")
-    @Enumerated(EnumType.STRING)
-    private Technique technique;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@NonNull
+	private final Set<RecipeItem> recipeItems = new HashSet<>();
 
-    @Transient
-    private double abv = 0;
+	@Column(name = "technique")
+	@Enumerated(EnumType.STRING)
+	private Technique technique;
 
-    //==연관관계 메서드==//
-    public void addRecipeItems(RecipeItem recipeItem) {
-        this.recipeItems.add(recipeItem);
-    }
+	@Transient
+	private double abv = 0;
 
-    //==생성 메서드==//
-    public static Recipe empty() {
-        return new Recipe();
-    }
+	// ==연관관계 메서드==//
+	public void addRecipeItems(RecipeItem recipeItem) {
+		this.recipeItems.add(recipeItem);
+	}
 
+	// ==생성 메서드==//
+	public static Recipe empty() {
+		return new Recipe();
+	}
 
-    //==비즈니스 로직==//
-    public double getAbv() {
-        if(abv == 0) {
-            double alcoholSum = 0, totalSum = 0;
-            for (RecipeItem item : recipeItems) {
-                alcoholSum += item.getQuantity() * item.getIngredient().getAbv();
-                totalSum += item.getQuantity();
-            }
-            abv = alcoholSum / totalSum;
-        }
-        return abv;
-    }
+	// ==비즈니스 로직==//
+	public double getAbv() {
+		if (abv == 0) {
+			double alcoholSum = 0, totalSum = 0;
+			for (RecipeItem item : recipeItems) {
+				alcoholSum += item.getQuantity() * item.getIngredient().getAbv();
+				totalSum += item.getQuantity();
+			}
+			abv = alcoholSum / totalSum;
+		}
+		return abv;
+	}
+
 }

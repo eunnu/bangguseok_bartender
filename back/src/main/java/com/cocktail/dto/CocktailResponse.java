@@ -12,34 +12,34 @@ import lombok.*;
 @ToString
 public class CocktailResponse {
 
-    private String name;
+	private String name;
 
-    private String createdDate;
+	private String createdDate;
 
-    private String updatedDate;
+	private String updatedDate;
 
-    private String description;
+	private String description;
 
-    private Recipe recipe = Recipe.empty();
+	private Recipe recipe = Recipe.empty();
 
-    private Glass glass;
+	private Glass glass;
 
-    private Long userId;
+	private Long userId;
 
-    private String userName;
+	private String userName;
 
-    private double abv = 0;
+	private double abv = 0;
 
-    public CocktailResponse(Cocktail cocktail) {
-        this.name = cocktail.getName();
-        this.description = cocktail.getDescription();
-        this.createdDate = cocktail.getCreatedDate().format(Def.dateTimeFormatter);
-        this.updatedDate = cocktail.getUpdatedDate().format(Def.dateTimeFormatter);
-        this.glass = cocktail.getGlass();
-        this.userId = cocktail.getUser().getId();
-        this.userName = cocktail.getUser().getName();
-        this.recipe = cocktail.getRecipe();
-        this.abv = recipe.getAbv();
-    }
+	public CocktailResponse(Cocktail cocktail) {
+		this.name = cocktail.getName();
+		this.description = cocktail.getDescription();
+		this.createdDate = cocktail.getCreatedDate().format(Def.dateTimeFormatter);
+		this.updatedDate = cocktail.getUpdatedDate().format(Def.dateTimeFormatter);
+		this.glass = cocktail.getGlass();
+		this.userId = cocktail.getUserId();
+		// this.userName = cocktail.getUser().getName();
+		this.recipe = cocktail.getRecipe();
+		this.abv = recipe.getAbv();
+	}
 
 }

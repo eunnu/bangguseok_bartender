@@ -13,22 +13,20 @@ import java.util.List;
 
 public class CocktailRequest {
 
-    private String name;
+	private String name;
 
-    private String description;
+	private String description;
 
-    private List<Long> ingredientIdList = new ArrayList<>();
+	private List<Long> ingredientIdList = new ArrayList<>();
 
-    private List<Double> quantityList = new ArrayList<>();
+	private List<Double> quantityList = new ArrayList<>();
 
-    private String glass;
+	private String glass;
 
-    private Long userId;
+	private Long userId;
 
-    public Cocktail toCocktail() {
-        return Cocktail.builder()
-                .name(name).description(description)
-                .glass(Glass.valueOf(glass)).build();
-    }
+	public Cocktail toCocktail() {
+		return Cocktail.builder().name(name).description(description).glass(Glass.valueOf(glass)).build();
+	}
 
 }

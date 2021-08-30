@@ -9,10 +9,11 @@ import javax.persistence.PersistenceContext;
 @Repository
 public class IngredientRepository {
 
-    @PersistenceContext
-    EntityManager em;
+	@PersistenceContext
+	EntityManager em;
 
-    public Ingredient findById(Long id) {
-        return em.find(Ingredient.class, id);
-    }
+	public Ingredient findById(Long id) {
+		return em.find(Ingredient.class, id);
+	}
+
 }

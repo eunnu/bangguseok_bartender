@@ -14,53 +14,53 @@ import java.time.LocalDateTime;
 @Entity
 public class Cocktail {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @NonNull
-    @Column(unique = true)
-    private String name;
+	@NonNull
+	@Column(unique = true)
+	private String name;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    @Setter
-    private LocalDateTime createdDate = LocalDateTime.now();
+	@CreatedDate
+	@Column(name = "create_date")
+	@Setter
+	private LocalDateTime createdDate = LocalDateTime.now();
 
-    @LastModifiedDate
-    @Column(name = "update_date")
-    @Setter
-    private LocalDateTime updatedDate = LocalDateTime.now();
+	@LastModifiedDate
+	@Column(name = "update_date")
+	@Setter
+	private LocalDateTime updatedDate = LocalDateTime.now();
 
-    @Column(name = "description")
-    private String description;
+	@Column(name = "description")
+	private String description;
 
-    @Embedded
-    private Recipe recipe = Recipe.empty();
+	@Embedded
+	private Recipe recipe = Recipe.empty();
 
-    @Enumerated(EnumType.STRING)
-    private Glass glass;
+	@Enumerated(EnumType.STRING)
+	private Glass glass;
 
-    @ManyToOne(fetch = FetchType.LAZY) // FetchType.EAGER 면 left outer join 해옴
-    @JoinColumn(name = "create_user_id")
-    @NonNull
-    private User user;
+	// @ManyToOne(fetch = FetchType.LAZY) // FetchType.EAGER 면 left outer join 해옴
+	// @JoinColumn(name = "create_user_id")
+	// @NonNull
+	// private User user;
+	@Column(name = "create_user_id")
+	@Setter
+	@NonNull
+	private Long userId;
 
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    //==생성 메서드==//
-    @Builder
-    public Cocktail(Long id, @NonNull String name, String description, Glass glass) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.glass = glass;
-    }
+	// ==생성 메서드==//
+	@Builder
+	public Cocktail(Long id, @NonNull String name, String description, Glass glass) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.glass = glass;
+	}
 
 }
