@@ -1,6 +1,7 @@
 package com.cocktail.service;
 
 import com.cocktail.domain.Cocktail;
+import com.cocktail.domain.Ingredient;
 import com.cocktail.domain.RecipeItem;
 import com.cocktail.dto.CocktailRequest;
 import com.cocktail.repository.CocktailRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,8 +35,10 @@ public class CocktailService {
 		List<Double> quantityList = cocktailRequest.getQuantityList();
 
 		for (int i = 0; i < ingredientIdList.size(); i++) {
+			Optional<Ingredient> ingredient = ingredientRepository.findById(ingredientIdList.get(i));
+
 			cocktail.getRecipe().addRecipeItems(
-					RecipeItem.builder().ingredient(ingredientRepository.findById(ingredientIdList.get(i)))
+							RecipeItem.builder().ingredient(ingredient.get())
 							.quantity(quantityList.get(i)).cocktail(cocktail).build());
 		}
 

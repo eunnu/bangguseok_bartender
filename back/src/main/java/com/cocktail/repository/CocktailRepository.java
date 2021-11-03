@@ -30,7 +30,7 @@ public class CocktailRepository {
 	}
 
 	public List<Cocktail> findAll() {
-		return em.createQuery("select c from cocktails c", Cocktail.class).getResultList();
+		return em.createQuery("select c from Cocktail c", Cocktail.class).getResultList();
 	}
 
 	public List<Cocktail> findByNameContaining(String name) {
