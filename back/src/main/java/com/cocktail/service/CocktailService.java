@@ -4,6 +4,7 @@ import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.Ingredient;
 import com.cocktail.domain.RecipeItem;
 import com.cocktail.dto.CocktailRequest;
+import com.cocktail.exception.NotFoundException;
 import com.cocktail.repository.CocktailRepository;
 import com.cocktail.repository.IngredientRepository;
 import com.cocktail.repository.UserRepository;
@@ -20,10 +21,8 @@ public class CocktailService {
 
 	@Autowired
 	CocktailRepository cocktailRepository;
-
 	@Autowired
 	UserRepository userRepository;
-
 	@Autowired
 	IngredientRepository ingredientRepository;
 
@@ -34,6 +33,7 @@ public class CocktailService {
 		List<Long> ingredientIdList = cocktailRequest.getIngredientIdList();
 		List<Double> quantityList = cocktailRequest.getQuantityList();
 
+
 		for (int i = 0; i < ingredientIdList.size(); i++) {
 			Optional<Ingredient> ingredient = ingredientRepository.findById(ingredientIdList.get(i));
 
@@ -42,15 +42,27 @@ public class CocktailService {
 							.quantity(quantityList.get(i)).cocktail(cocktail).build());
 		}
 
-		return cocktailRepository.save(cocktail);
+		return cocktailRepository.save(cocktail).getId();
 	}
 
-	public Cocktail findCocktail(Long id) {
+	public Optional<Cocktail> findCocktail(Long id) {
 		return cocktailRepository.findById(id);
 	}
 
 	public List<Cocktail> findAll() {
 		return cocktailRepository.findAll();
+	}
+
+	@Transactional
+	public void updateCocktail(Long cocktailId, CocktailRequest cocktailRequest) {
+		Optional<Cocktail> originCocktail = cocktailRepository.findById(cocktailId);
+		if (!originCocktail.isPresent()) throw new NotFoundException();
+		Cocktail toCocktail = cocktailRequest.toCocktail();
+		toCocktail.getRecipe().getRecipeItems().stream().forEach(i -> {
+			i.setIngredient(ingredientRepository.getById(i.getIngredient().getId()));
+		});
+
+		originCocktail.get().edit(toCocktail);
 	}
 
 }
