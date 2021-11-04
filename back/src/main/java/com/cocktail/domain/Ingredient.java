@@ -32,7 +32,7 @@ public class Ingredient {
 
     //==생성 메서드==//
     @Builder
-    public Ingredient(Long id, @NonNull String name, double abv, String description) {
+    public Ingredient(Long id, String name, double abv, String description) {
         this.id = id;
         this.name = name;
         this.abv = abv;

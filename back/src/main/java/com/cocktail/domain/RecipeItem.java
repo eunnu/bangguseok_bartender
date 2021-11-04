@@ -17,7 +17,7 @@ public class RecipeItem {
     private Long id;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
     @NonNull
     private Cocktail cocktail;
@@ -55,7 +55,6 @@ public class RecipeItem {
         this.ingredient = ingredient;
         this.quantity = quantity;
     }
-
 
     //==비즈니스 로직==//
 

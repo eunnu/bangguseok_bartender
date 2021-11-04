@@ -1,7 +1,6 @@
 package com.cocktail.dto;
 
-import com.cocktail.domain.Cocktail;
-import com.cocktail.domain.Glass;
+import com.cocktail.domain.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +24,23 @@ public class CocktailRequest {
 
 	private Long userId;
 
+	private String technique;
+
 	public Cocktail toCocktail() {
-		return Cocktail.builder().name(name).description(description).glass(Glass.valueOf(glass)).build();
+		Cocktail build = Cocktail.builder().name(name).description(description).glass(Glass.valueOf(glass)).build();
+		Recipe recipe = new Recipe();
+		recipe.setTechnique(Technique.valueOf(technique));
+		for (int i = 0; i < ingredientIdList.size(); i++) {
+			recipe.addRecipeItems(
+					RecipeItem.builder()
+							.ingredient(Ingredient.builder().id(ingredientIdList.get(i)).build())
+							.quantity(quantityList.get(i))
+							.build()
+			);
+		}
+		build.setRecipe(recipe);
+
+		return build;
 	}
 
 }

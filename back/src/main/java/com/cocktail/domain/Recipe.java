@@ -1,22 +1,22 @@
 package com.cocktail.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@ToString
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 public class Recipe {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@NonNull
-	private final Set<RecipeItem> recipeItems = new HashSet<>();
+	private Set<RecipeItem> recipeItems = new HashSet<>();
 
 	@Column(name = "technique")
 	@Enumerated(EnumType.STRING)
@@ -48,4 +48,8 @@ public class Recipe {
 		return abv;
 	}
 
+	public void edit(Recipe modified) {
+		this.technique = modified.getTechnique();
+		this.recipeItems = modified.getRecipeItems();
+	}
 }

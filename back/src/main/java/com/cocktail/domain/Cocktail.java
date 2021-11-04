@@ -56,11 +56,21 @@ public class Cocktail {
 
 	// ==생성 메서드==//
 	@Builder
-	public Cocktail(Long id, @NonNull String name, String description, Glass glass) {
+	public Cocktail(Long id, String name, String description, Glass glass) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.glass = glass;
+	}
+
+	// ==비즈니스 메서드==//
+	public Cocktail edit(Cocktail modified) {
+		this.name = modified.getName();
+		this.description = modified.getDescription();
+		this.glass = modified.getGlass();
+		this.recipe.edit(modified.getRecipe());
+
+		return modified;
 	}
 
 }
