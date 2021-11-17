@@ -1,7 +1,10 @@
 package com.cocktail.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "recipes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class RecipeItem {
 
     @Id @GeneratedValue
@@ -19,7 +21,6 @@ public class RecipeItem {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
-    @NonNull
     private Cocktail cocktail;
 
     @ManyToOne
@@ -50,7 +51,7 @@ public class RecipeItem {
 //    public RecipeItem createRecipeItem(Cocktail cocktail, Ingredient ingredient, double quantity) { }
 
     @Builder
-    public RecipeItem(@NonNull Cocktail cocktail, Ingredient ingredient, double quantity) {
+    public RecipeItem(Cocktail cocktail, Ingredient ingredient, double quantity) {
         this.cocktail = cocktail;
         this.ingredient = ingredient;
         this.quantity = quantity;

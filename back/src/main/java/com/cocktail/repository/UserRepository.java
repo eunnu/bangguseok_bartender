@@ -16,4 +16,12 @@ public class UserRepository {
 		return em.find(User.class, userId);
 	}
 
+	public User save(User user) {
+		return em.merge(user);
+	}
+
+	public void delete(User user) {
+		em.remove(user);
+	}
+
 }
