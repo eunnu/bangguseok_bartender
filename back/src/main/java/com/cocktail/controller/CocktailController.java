@@ -6,11 +6,16 @@ import com.cocktail.dto.ResponseMessage;
 import com.cocktail.exception.BusinessException;
 import com.cocktail.exception.NotFoundException;
 import com.cocktail.service.CocktailService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +44,26 @@ public class CocktailController {
 	public ResponseEntity<ResponseMessage> createCocktail(@Valid Long userId, @RequestBody @Valid CocktailRequest cocktailRequest) {
 		Long cocktailId = cocktailService.createCocktail(userId, cocktailRequest);
 
-		if(cocktailId == 0) throw new BusinessException();
+		if (cocktailId == 0) throw new BusinessException();
 		return ResponseEntity.ok(new ResponseMessage(cocktailId));
+	}
+
+	@PostMapping("/image")
+	public ResponseEntity<ResponseMessage> uploadImage(@RequestParam("image") MultipartFile image) {
+		String path;
+		try {
+			path = cocktailService.saveImage(image.getBytes());
+		} catch (IOException e) {
+			throw new BusinessException();
+		}
+
+		return ResponseEntity.ok(new ResponseMessage(new PathDTO(path)));
+	}
+
+	@AllArgsConstructor
+	@Data
+	public static class PathDTO implements Serializable {
+		private String path;
 	}
 
 }

@@ -41,10 +41,9 @@ public class Cocktail {
 	@Enumerated(EnumType.STRING)
 	private Glass glass;
 
-	// @ManyToOne(fetch = FetchType.LAZY) // FetchType.EAGER 면 left outer join 해옴
-	// @JoinColumn(name = "create_user_id")
-	// @NonNull
-	// private User user;
+	@Column(name = "image_path")
+	private String imagePath;
+
 	@Column(name = "create_user_id")
 	@Setter
 	@NonNull
@@ -56,11 +55,12 @@ public class Cocktail {
 
 	// ==생성 메서드==//
 	@Builder
-	public Cocktail(Long id, String name, String description, Glass glass) {
+	public Cocktail(Long id, String name, String description, Glass glass, String imagePath) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.glass = glass;
+		this.imagePath = imagePath;
 	}
 
 	// ==비즈니스 메서드==//

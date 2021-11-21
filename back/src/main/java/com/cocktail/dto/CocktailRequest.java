@@ -26,8 +26,10 @@ public class CocktailRequest {
 
 	private String technique;
 
+	private String imageUri;
+
 	public Cocktail toCocktail() {
-		Cocktail build = Cocktail.builder().name(name).description(description).glass(Glass.valueOf(glass)).build();
+		Cocktail build = Cocktail.builder().name(name).description(description).glass(Glass.valueOf(glass)).imagePath(imageUri).build();
 		Recipe recipe = new Recipe();
 		recipe.setTechnique(Technique.valueOf(technique));
 		for (int i = 0; i < ingredientIdList.size(); i++) {
