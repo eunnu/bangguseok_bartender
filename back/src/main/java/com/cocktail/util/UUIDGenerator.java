@@ -27,9 +27,9 @@ public class UUIDGenerator {
             id = UUID.randomUUID().toString();
         } while (uuidRepository.findById(id).isPresent());
 
-        uuidRepository.save(new UUIDEntity(id));
+        UUIDEntity save = uuidRepository.save(new UUIDEntity(id));
 
-        return id;
+        return save.getUuid();
     }
 }
 
