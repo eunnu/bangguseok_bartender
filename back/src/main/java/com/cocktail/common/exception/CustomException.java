@@ -1,4 +1,4 @@
-package com.cocktail.exception;
+package com.cocktail.common.exception;
 
 import org.springframework.http.HttpStatus;
 
