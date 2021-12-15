@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/cocktail
+    url: jdbc:h2:file:C:/Users/gk1vk/study/data;AUTO_SERVER=true
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
     properties:
       hibernate:
 #        show_sql: true # system.out
