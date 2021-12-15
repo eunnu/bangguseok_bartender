@@ -1,16 +1,18 @@
 package com.cocktail.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@ToString
-@Getter
-@Table(name = "cocktails")
+@Data
 @NoArgsConstructor
+@Table(name = "cocktails")
 @Entity
 public class Cocktail {
 
@@ -43,7 +45,6 @@ public class Cocktail {
 	private String imagePath;
 
 	@Column(name = "create_user_id")
-	@Setter
 	@NonNull
 	private Long userId;
 
@@ -53,8 +54,7 @@ public class Cocktail {
 
 	// ==생성 메서드==//
 	@Builder
-	public Cocktail(Long id, String name, String description, Glass glass, String imagePath) {
-		this.id = id;
+	public Cocktail(String name, String description, Glass glass, String imagePath) {
 		this.name = name;
 		this.description = description;
 		this.glass = glass;

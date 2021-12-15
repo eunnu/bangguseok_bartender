@@ -50,6 +50,6 @@ public class Recipe {
 
 	public void edit(Recipe modified) {
 		this.technique = modified.getTechnique();
-//		this.recipeItems = modified.getRecipeItems();
+		this.recipeItems = modified.getRecipeItems();
 	}
 }

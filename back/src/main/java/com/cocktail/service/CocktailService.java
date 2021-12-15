@@ -1,6 +1,6 @@
 package com.cocktail.service;
 
-import com.cocktail.common.exception.NotFoundException;
+import com.cocktail.common.exception.UnauthorizedException;
 import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.Ingredient;
 import com.cocktail.domain.RecipeItem;
@@ -51,8 +51,8 @@ public class CocktailService {
 					RecipeItem.builder().ingredient(ingredient.get())
 							.quantity(quantityList.get(i)).cocktail(cocktail).build());
 		}
-
-		return cocktailRepository.save(cocktail).getId();
+		Cocktail save = cocktailRepository.save(cocktail);
+		return save.getId();
 	}
 
 	public Optional<Cocktail> findCocktail(Long id) {
@@ -65,13 +65,14 @@ public class CocktailService {
 
 	@Transactional
 	public void updateCocktail(Long userId, Long cocktailId, CocktailRequest cocktailRequest) {
-		Optional<Cocktail> originCocktail = cocktailRepository.findByIdAndUserId(cocktailId, userId);
-		if (!originCocktail.isPresent()) throw new NotFoundException();
+		Cocktail originCocktail = cocktailRepository.findByIdAndUserId(cocktailId, userId).orElseThrow(UnauthorizedException::new);
 		Cocktail toCocktail = cocktailRequest.toCocktail();
+		toCocktail.setId(cocktailId);
+
 		for (RecipeItem i : toCocktail.getRecipe().getRecipeItems())
 			i.setIngredient(ingredientRepository.getById(i.getIngredient().getId()));
 
-		originCocktail.get().edit(toCocktail);
+		originCocktail.edit(toCocktail);
 	}
 
 	public String saveImage(byte[] image) throws IOException {
