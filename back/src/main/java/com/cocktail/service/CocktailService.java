@@ -1,15 +1,18 @@
 package com.cocktail.service;
 
+import com.cocktail.common.exception.NotFoundException;
 import com.cocktail.domain.Cocktail;
 import com.cocktail.domain.Ingredient;
 import com.cocktail.domain.RecipeItem;
 import com.cocktail.dto.CocktailRequest;
-import com.cocktail.exception.NotFoundException;
 import com.cocktail.repository.CocktailRepository;
 import com.cocktail.repository.IngredientRepository;
-import com.cocktail.repository.UserRepository;
 import com.cocktail.util.UUIDGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,7 @@ import java.util.Optional;
 public class CocktailService {
 
 	private static final String FILE_FOLDER = "/home/img/";
+	private static final Logger log = LoggerFactory.getLogger(CocktailService.class);
 
 	@Autowired
 	CocktailRepository cocktailRepository;
@@ -55,8 +59,8 @@ public class CocktailService {
 		return cocktailRepository.findById(id);
 	}
 
-	public List<Cocktail> findAll() {
-		return cocktailRepository.findAll();
+	public Page<Cocktail> findAll(Pageable pageable) {
+		return cocktailRepository.findAllByCreatedDate(pageable);
 	}
 
 	@Transactional
