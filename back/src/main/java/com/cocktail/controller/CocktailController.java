@@ -44,8 +44,8 @@ public class CocktailController {
 	}
 
 	/* 칵테일 저장 */
-	@PostMapping(value = "/new", params = "userId")
-	public ResponseEntity<ResponseMessage> createCocktail(@Valid Long userId, @RequestBody @Valid CocktailRequest cocktailRequest) {
+	@PostMapping(value = "/new")
+	public ResponseEntity<ResponseMessage> createCocktail(@RequestHeader("X-USER-ID") Long userId, @RequestBody @Valid CocktailRequest cocktailRequest) {
 		Long cocktailId = cocktailService.createCocktail(userId, cocktailRequest);
 
 		if (cocktailId == 0) throw new BusinessException();
@@ -53,9 +53,9 @@ public class CocktailController {
 	}
 
 	/* 칵테일 수정 */
-	@PutMapping("/{cocktailId}")
-	public ResponseEntity<ResponseMessage> updateCocktail(@Valid Long userId, @PathVariable Long cocktailId, @RequestBody @Valid CocktailRequest cocktailRequest) {
-		cocktailService.updateCocktail(userId, cocktailId, cocktailRequest);
+	@PutMapping(params = "id")
+	public ResponseEntity<ResponseMessage> updateCocktail(@RequestHeader("X-USER-ID") Long userId, @PathVariable Long id, @RequestBody @Valid CocktailRequest cocktailRequest) {
+		cocktailService.updateCocktail(userId, id, cocktailRequest);
 		return ResponseEntity.ok(ResponseMessage.noContent());
 	}
 
@@ -74,8 +74,8 @@ public class CocktailController {
 
 	/* 칵테일 삭제 */
 	@DeleteMapping(params = "id")
-	public ResponseEntity<ResponseMessage> deleteCocktail() {
-
+	public ResponseEntity<ResponseMessage> deleteCocktail(@RequestHeader("X-USER-ID") Long userId, @RequestParam Long id) {
+		cocktailService.deleteCocktail(userId, id);
 		return ResponseEntity.noContent().build();
 	}
 

@@ -16,10 +16,12 @@ public class IngredientController {
     @Autowired
     IngredientService ingredientService;
 
+    /* 재료 단일 조회 */
     @GetMapping
     public ResponseEntity<ResponseMessage> findById(@RequestParam Long id) {
         return ResponseEntity.ok(new ResponseMessage(ingredientService.findById(id).orElseThrow(NotFoundException::new)));
     }
 
-
+    /* 재료 전체 조회 */
+    // TODO
 }

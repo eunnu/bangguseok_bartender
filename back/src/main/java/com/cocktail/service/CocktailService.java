@@ -84,4 +84,10 @@ public class CocktailService {
 		return path.toString();
 	}
 
+	@Transactional
+	public void deleteCocktail(Long userId, Long cocktailId) {
+		Cocktail cocktail = cocktailRepository.findByIdAndUserId(cocktailId, userId).orElseThrow(UnauthorizedException::new);
+
+		cocktailRepository.delete(cocktail);
+	}
 }
