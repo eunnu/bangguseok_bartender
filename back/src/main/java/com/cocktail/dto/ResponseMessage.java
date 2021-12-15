@@ -19,6 +19,10 @@ public class ResponseMessage {
         this.success = false;
     }
 
+    public static ResponseMessage noContent() {
+        return new ResponseMessage(null);
+    }
+
     @Data
     public class Error {
         int status;

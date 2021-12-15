@@ -48,6 +48,12 @@ public class CocktailController {
 		return ResponseEntity.ok(new ResponseMessage(cocktailId));
 	}
 
+	@PutMapping("/{cocktailId}")
+	public ResponseEntity<ResponseMessage> updateCocktail(@Valid Long userId, @PathVariable Long cocktailId, @RequestBody @Valid CocktailRequest cocktailRequest) {
+		cocktailService.updateCocktail(userId, cocktailId, cocktailRequest);
+		return ResponseEntity.ok(ResponseMessage.noContent());
+	}
+
 	@PostMapping("/image")
 	public ResponseEntity<ResponseMessage> uploadImage(@RequestParam("image") MultipartFile image) {
 		String path;

@@ -24,13 +24,11 @@ public class Cocktail {
 
 	@CreatedDate
 	@Column(name = "create_date")
-	@Setter
-	private LocalDateTime createdDate = LocalDateTime.now();
+	private LocalDateTime createdDate;
 
 	@LastModifiedDate
 	@Column(name = "update_date")
-	@Setter
-	private LocalDateTime updatedDate = LocalDateTime.now();
+	private LocalDateTime updatedDate;
 
 	@Column(name = "description")
 	private String description;
@@ -69,6 +67,8 @@ public class Cocktail {
 		this.description = modified.getDescription();
 		this.glass = modified.getGlass();
 		this.recipe.edit(modified.getRecipe());
+		this.imagePath = modified.getImagePath();
+		this.updatedDate = LocalDateTime.now();
 
 		return modified;
 	}

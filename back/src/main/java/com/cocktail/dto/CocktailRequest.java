@@ -22,8 +22,6 @@ public class CocktailRequest {
 
 	private String glass;
 
-	private Long userId;
-
 	private String technique;
 
 	private String imageUri;

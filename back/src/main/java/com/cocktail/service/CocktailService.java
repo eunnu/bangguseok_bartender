@@ -29,8 +29,6 @@ public class CocktailService {
 	@Autowired
 	CocktailRepository cocktailRepository;
 	@Autowired
-	UserRepository userRepository;
-	@Autowired
 	IngredientRepository ingredientRepository;
 	@Autowired
 	UUIDGenerator uuidGenerator;
@@ -62,8 +60,8 @@ public class CocktailService {
 	}
 
 	@Transactional
-	public void updateCocktail(Long cocktailId, CocktailRequest cocktailRequest) {
-		Optional<Cocktail> originCocktail = cocktailRepository.findById(cocktailId);
+	public void updateCocktail(Long userId, Long cocktailId, CocktailRequest cocktailRequest) {
+		Optional<Cocktail> originCocktail = cocktailRepository.findByIdAndUserId(cocktailId, userId);
 		if (!originCocktail.isPresent()) throw new NotFoundException();
 		Cocktail toCocktail = cocktailRequest.toCocktail();
 		for (RecipeItem i : toCocktail.getRecipe().getRecipeItems())
