@@ -26,11 +26,11 @@ public class Cocktail {
 
 	@CreatedDate
 	@Column(name = "create_date")
-	private LocalDateTime createdDate;
+	private LocalDateTime createdDate = LocalDateTime.now();
 
 	@LastModifiedDate
 	@Column(name = "update_date")
-	private LocalDateTime updatedDate;
+	private LocalDateTime updatedDate = LocalDateTime.now();
 
 	@Column(name = "description")
 	private String description;

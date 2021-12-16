@@ -38,7 +38,7 @@ public class CocktailService {
 	UUIDGenerator uuidGenerator;
 
 	@Transactional
-	public Long createCocktail(Long userId, CocktailRequest cocktailRequest) {
+	public Cocktail createCocktail(Long userId, CocktailRequest cocktailRequest) {
 		Cocktail cocktail = cocktailRequest.toCocktail();
 		cocktail.setUserId(userId);
 		List<Long> ingredientIdList = cocktailRequest.getIngredientIdList();
@@ -51,8 +51,7 @@ public class CocktailService {
 					RecipeItem.builder().ingredient(ingredient.get())
 							.quantity(quantityList.get(i)).cocktail(cocktail).build());
 		}
-		Cocktail save = cocktailRepository.save(cocktail);
-		return save.getId();
+		return cocktailRepository.save(cocktail);
 	}
 
 	public Optional<Cocktail> findCocktail(Long id) {
@@ -90,4 +89,9 @@ public class CocktailService {
 
 		cocktailRepository.delete(cocktail);
 	}
+
+	public Page<Cocktail> search(String name, List<Long> ingredientIds, Pageable pageable) {
+		return null;
+	}
+
 }

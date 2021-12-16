@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Embeddable
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 public class Recipe {
 
@@ -40,10 +39,12 @@ public class Recipe {
 		if (abv == 0) {
 			double alcoholSum = 0, totalSum = 0;
 			for (RecipeItem item : recipeItems) {
+				if (item.getQuantity() < 5) continue;
 				alcoholSum += item.getQuantity() * item.getIngredient().getAbv();
 				totalSum += item.getQuantity();
 			}
-			abv = alcoholSum / totalSum;
+			int intAbv = (int) ((alcoholSum / totalSum) * 100);
+			abv = intAbv / 100;
 		}
 		return abv;
 	}

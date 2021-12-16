@@ -28,8 +28,6 @@ public class CocktailResponse {
 
 	private String userName;
 
-	private double abv = 0;
-
 	private String imageUri;
 
 	public CocktailResponse(Cocktail cocktail) {
@@ -41,7 +39,6 @@ public class CocktailResponse {
 		this.userId = cocktail.getUserId();
 		// this.userName = cocktail.getUser().getName();
 		this.recipe = cocktail.getRecipe();
-		this.abv = recipe.getAbv();
 		this.imageUri = cocktail.getImagePath();
 	}
 

@@ -2,6 +2,7 @@ package com.cocktail.controller;
 
 import com.cocktail.common.exception.BusinessException;
 import com.cocktail.common.exception.NotFoundException;
+import com.cocktail.domain.Cocktail;
 import com.cocktail.dto.CocktailRequest;
 import com.cocktail.dto.CocktailResponse;
 import com.cocktail.dto.ResponseMessage;
@@ -38,22 +39,22 @@ public class CocktailController {
 	}
 
 	/* 칵테일 상세 조회 */
-	@GetMapping(params = "id")
-	public ResponseEntity<ResponseMessage> findCocktail(Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<ResponseMessage> findCocktail(@PathVariable Long id) {
 		return ResponseEntity.ok(new ResponseMessage(cocktailService.findCocktail(id).map(CocktailResponse::new).orElseThrow(NotFoundException::new)));
 	}
 
 	/* 칵테일 저장 */
 	@PostMapping(value = "/new")
 	public ResponseEntity<ResponseMessage> createCocktail(@RequestHeader("X-USER-ID") Long userId, @RequestBody @Valid CocktailRequest cocktailRequest) {
-		Long cocktailId = cocktailService.createCocktail(userId, cocktailRequest);
+		Cocktail cocktail = cocktailService.createCocktail(userId, cocktailRequest);
 
-		if (cocktailId == 0) throw new BusinessException();
-		return ResponseEntity.ok(new ResponseMessage(cocktailId));
+		if (cocktail == null) throw new BusinessException();
+		return ResponseEntity.ok(new ResponseMessage(cocktail));
 	}
 
 	/* 칵테일 수정 */
-	@PutMapping(params = "id")
+	@PutMapping("/{id}")
 	public ResponseEntity<ResponseMessage> updateCocktail(@RequestHeader("X-USER-ID") Long userId, @PathVariable Long id, @RequestBody @Valid CocktailRequest cocktailRequest) {
 		cocktailService.updateCocktail(userId, id, cocktailRequest);
 		return ResponseEntity.ok(ResponseMessage.noContent());
@@ -73,8 +74,8 @@ public class CocktailController {
 	}
 
 	/* 칵테일 삭제 */
-	@DeleteMapping(params = "id")
-	public ResponseEntity<ResponseMessage> deleteCocktail(@RequestHeader("X-USER-ID") Long userId, @RequestParam Long id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ResponseMessage> deleteCocktail(@RequestHeader("X-USER-ID") Long userId, @PathVariable Long id) {
 		cocktailService.deleteCocktail(userId, id);
 		return ResponseEntity.noContent().build();
 	}
