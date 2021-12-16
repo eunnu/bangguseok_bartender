@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -80,11 +81,12 @@ public class CocktailController {
 		return ResponseEntity.noContent().build();
 	}
 
-	/* 이름으로 검색 */
+	/* 이름이나 재료 리스트로 검색 */
 	@GetMapping("search")
-	public ResponseEntity<ResponseMessage> search(@PageableDefault Pageable pageable, @RequestParam Map<String,String> queryMap) {
+	public ResponseEntity<ResponseMessage> search(@PageableDefault Pageable pageable,
+			@RequestParam(value = "name",required = false) String name, @RequestParam(value = "ingredientIds",required = false) List<Long> ingredientIds) {
 
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(new ResponseMessage(cocktailService.search(name, ingredientIds, pageable)));
 	}
 
 	@AllArgsConstructor

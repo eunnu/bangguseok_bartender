@@ -7,6 +7,7 @@ import com.cocktail.domain.RecipeItem;
 import com.cocktail.dto.CocktailRequest;
 import com.cocktail.repository.CocktailRepository;
 import com.cocktail.repository.IngredientRepository;
+import com.cocktail.repository.QueryDSLRepository;
 import com.cocktail.util.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,8 @@ public class CocktailService {
 	IngredientRepository ingredientRepository;
 	@Autowired
 	UUIDGenerator uuidGenerator;
+	@Autowired
+	QueryDSLRepository queryDSLRepository;
 
 	@Transactional
 	public Cocktail createCocktail(Long userId, CocktailRequest cocktailRequest) {
@@ -90,8 +93,12 @@ public class CocktailService {
 		cocktailRepository.delete(cocktail);
 	}
 
-	public Page<Cocktail> search(String name, List<Long> ingredientIds, Pageable pageable) {
-		return null;
+	public List<Cocktail> search(String name, List<Long> ingredientIds, Pageable pageable) {
+		if ((name == null || name.isEmpty()) && (ingredientIds == null || ingredientIds.isEmpty()))
+			throw new IllegalArgumentException("no search condition");
+		if (ingredientIds != null && !ingredientIds.isEmpty())
+			return queryDSLRepository.findCocktailContainingIngredients(ingredientIds, pageable).getContent();
+		else return cocktailRepository.findByNameContaining(name, pageable).getContent();
 	}
 
 }

@@ -13,8 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface CocktailRepository extends JpaRepository<Cocktail, Long> {
-//    @Query("select c from Cocktail c where c.name like :name")
-    List<Cocktail> findByNameContaining(@Param("name") String name);
+
+	 @Query("select c from Cocktail c where c.name like %:name%")
+	Page<Cocktail> findByNameContaining(@Param("name") String name, Pageable pageable);
 
     @Query("select r.cocktail from RecipeItem r where r.ingredient.id = :ingredientId")
     List<Cocktail> findContainingIngredientId(@Param("ingredientId") Long ingredientId);
