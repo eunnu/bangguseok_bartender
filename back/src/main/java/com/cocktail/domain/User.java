@@ -1,26 +1,36 @@
 package com.cocktail.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
-@Table(name = "USERS")
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 
+    @NonNull
+    @Column(name = "user_name", unique = true)
     private String name;
+
+    @CreatedDate
+    @Column(name = "create_date")
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(name = "update_date")
+    private LocalDateTime updatedDate;
 
     private String login_id;
 
@@ -32,11 +42,4 @@ public class User {
 
     private String phone_num;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    private Timestamp createdDate;
-
-    @LastModifiedDate
-    @Column(name = "update_date")
-    private Timestamp updatedDate;
 }

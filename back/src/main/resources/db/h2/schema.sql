@@ -24,7 +24,8 @@
        name         VARCHAR(15),
        description  VARCHAR(200),
        glass        VARCHAR(20),
---       photo        BLOB, -- or image url
+       technique    VARCHAR(30),
+       image_path   VARCHAR(30),
        created_user_id INTEGER,
        create_date  TIMESTAMP,
        update_date TIMESTAMP
@@ -49,3 +50,8 @@
 ALTER TABLE user_keep_cocktail ADD CONSTRAINT fk_user_keep_cocktail_cocktail_id FOREIGN KEY (cocktail_id) REFERENCES cocktails (id);
 ALTER TABLE user_keep_cocktail ADD CONSTRAINT fk_user_keep_cocktail_user_id FOREIGN KEY (user_id) REFERENCES users (id);
 CREATE INDEX idx_user_keep_cocktail_user_id  ON user_keep_cocktail(user_id);
+
+  CREATE TABLE uuid (
+       uuid    VARCHAR(36) PRIMARY KEY
+  );
+
