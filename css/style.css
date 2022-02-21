@@ -23,13 +23,25 @@ a#txt {
 }
 
 
-a#enter {
+a#login {
     text-decoration: none;
     color: rgb(33, 33, 34);
     width: 1000px;
     position: absolute;
-    top: 50%;
-    left: 42%;
+    top: 55%;
+    left: 60%;
+    font-size: 100px;
+    font-family: 'Nanum Pen Script', cursive;
+    font-weight: lighter;
+}
+
+a#join {
+    text-decoration: none;
+    color: rgb(33, 33, 34);
+    width: 1000px;
+    position: absolute;
+    top: 55%;
+    left: 30%;
     font-size: 100px;
     font-family: 'Nanum Pen Script', cursive;
     font-weight: lighter;
