@@ -6,6 +6,10 @@
     padding: 0px;
 }
 
+ul {
+    list-style: none;
+}
+
 body {
    background-color: rgba(35, 40, 53, 0.815);
 }
@@ -23,26 +27,18 @@ a#txt {
 }
 
 
-a#login {
-    text-decoration: none;
-    color: rgb(33, 33, 34);
-    width: 1000px;
-    position: absolute;
-    top: 55%;
-    left: 60%;
-    font-size: 100px;
-    font-family: 'Nanum Pen Script', cursive;
-    font-weight: lighter;
+#list li{
+    
+    float: left;
+    margin-right: 100px;
 }
 
-a#join {
+#list li a {
     text-decoration: none;
     color: rgb(33, 33, 34);
-    width: 1000px;
-    position: absolute;
-    top: 55%;
-    left: 30%;
-    font-size: 100px;
+    font-size: 80px;
     font-family: 'Nanum Pen Script', cursive;
     font-weight: lighter;
+    top: 60%;
+    left: 30%;
 }
